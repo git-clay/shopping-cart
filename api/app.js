@@ -1,5 +1,6 @@
 var express = require("express");
 const dotenv = require("dotenv");
+const path = require("path");
 
 var productsRouter = require("./controllers/products");
 
@@ -8,6 +9,8 @@ dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "../shopping_cart/dist")));
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -23,6 +26,10 @@ app.use((req, res, next) => {
 
 /** API Endpoints */
 app.use("/products", productsRouter);
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../shopping_cart/dist/index.html"));
+});
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
