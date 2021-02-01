@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 
 var productsRouter = require("./controllers/products");
+var cartRouter = require("./controllers/cart");
 
 var app = express();
 dotenv.config();
@@ -25,7 +26,8 @@ app.use((req, res, next) => {
 });
 
 /** API Endpoints */
-app.use("/products", productsRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/cart", cartRouter);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../shopping_cart/dist/index.html"));

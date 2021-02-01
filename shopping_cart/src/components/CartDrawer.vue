@@ -18,7 +18,7 @@
       <v-list dense v-if="getItems">
         <v-list-item v-for="(item, idx) in getItems" :key="idx">
           <v-list-item-avatar>
-            <v-img :src="item.imgSrc"></v-img>
+            <v-img :src="item.imgSrc"/>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -58,7 +58,7 @@ export default {
     total() {
       return this.getItems.reduce((accumulator, current) => {
         return accumulator + this.price(current);
-      }, 0);
+      }, 0).toFixed(2);
     },
   },
   data() {
@@ -72,7 +72,7 @@ export default {
       return +(item.price * item.quantity).toFixed(2);
     },
     checkout() {
-      console.log(this.getItems);
+      console.log(`post to /api/checkout`,this.getItems);
     },
   },
 };

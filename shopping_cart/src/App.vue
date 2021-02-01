@@ -12,12 +12,19 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import Nav from "./components/Nav";
 
 export default {
   name: "App",
   components: {
     Nav,
+  },
+  methods: {
+    ...mapActions('ProductModule',['fetchProducts'])
+  },
+  created() {
+    this.fetchProducts()
   },
 };
 </script>

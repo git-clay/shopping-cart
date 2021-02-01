@@ -3,6 +3,7 @@
     <v-row>
       <v-spacer />
       <CardDrawer />
+      <CartPromptDialog/>
     </v-row>
   </v-container>
 </template>
@@ -11,6 +12,7 @@
 export default {
   components: {
     CardDrawer: () => import("@/components/CartDrawer"),
+    CartPromptDialog: () => import("@/components/CartPromptDialog"),
   },
 };
 </script>

@@ -1,9 +1,10 @@
 import Vue from "vue";
+import { findIndex, findQuantity } from "@/util/CartHelper";
 
 const CartState = {
   items: [],
 };
-const findIndex = (items, id) => items.findIndex((i) => i.id === id);
+
 const CartModule = {
   namespaced: true,
 
@@ -11,9 +12,7 @@ const CartModule = {
 
   mutations: {
     ADD_TO_CART: (state, newItem) => {
-      const quantity =
-        state.items.find((item) => item.id === newItem.id)?.quantity ?? 0;
-      newItem.quantity = quantity + 1;
+      newItem.quantity = findQuantity(state.items, newItem.id) + 1;
       if (state.items.some((item) => item.id === newItem.id)) {
         Vue.set(state.items, findIndex(state.items, newItem.id), newItem);
       } else {
@@ -24,10 +23,8 @@ const CartModule = {
       state.items.splice(findIndex(state.items, removeItem.id), 1);
     },
     CHANGE_QUANTITY: (state, itemQuant) => {
-      const quantity =
-        state.items.find((item) => item.id === itemQuant.item.id)?.quantity ??
-        0;
-      itemQuant.item.quantity = quantity + itemQuant.amount;
+      itemQuant.item.quantity =
+        findQuantity(state.items, itemQuant.item.id) + itemQuant.amount;
       const index = findIndex(state.items, itemQuant.item.id);
       if (itemQuant.item.quantity <= 0) {
         state.items.splice(index, 1);
@@ -40,6 +37,7 @@ const CartModule = {
   actions: {
     addToCart(context, item) {
       context.commit("ADD_TO_CART", item);
+      context.dispatch("saveCart");
     },
     removeFromCart(context, item) {
       context.commit("REMOVE_FROM_CART", item);
@@ -49,6 +47,17 @@ const CartModule = {
     },
     subtractOne(context, item) {
       context.commit("CHANGE_QUANTITY", { item, amount: -1 });
+    },
+    saveCart(context) {
+      console.log(JSON.stringify(context.getters.getItems));
+      console.log(JSON.parse(JSON.stringify(context.getters.getItems)));
+      fetch(`${process.env.VUE_APP_API}/cart`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(context.getters.getItems), // going with the immutable save to ensure db always matches what user sees
+      });
     },
   },
 

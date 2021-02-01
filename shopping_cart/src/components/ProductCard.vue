@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card v-if="product" hover>
-      <v-img :src="product.imgSrc" :alt="product.name" max-height="200" />
+      <v-img :src="product.imgSrc" :alt="product.name" :max-height="$vuetify.breakpoint.smAndDown ? 200: 300"  contain/>
       <v-card-title>{{ product.name }}</v-card-title>
       <v-card-subtitle>${{ product.price }}</v-card-subtitle>
       <v-card-actions>
@@ -22,3 +22,4 @@ export default {
   },
 };
 </script>
+
