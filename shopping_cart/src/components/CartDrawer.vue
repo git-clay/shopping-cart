@@ -72,7 +72,7 @@ export default {
       return +(item.price * item.quantity).toFixed(2);
     },
     checkout() {
-      console.log(`post to /api/checkout`,this.getItems);
+      console.log(`next feature: post to /api/checkout`, this.getItems);
     },
   },
 };

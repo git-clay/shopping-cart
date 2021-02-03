@@ -49,8 +49,6 @@ const CartModule = {
       context.commit("CHANGE_QUANTITY", { item, amount: -1 });
     },
     saveCart(context) {
-      console.log(JSON.stringify(context.getters.getItems));
-      console.log(JSON.parse(JSON.stringify(context.getters.getItems)));
       fetch(`${process.env.VUE_APP_API}/cart`, {
         method: "POST",
         headers: {
